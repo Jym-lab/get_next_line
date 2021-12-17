@@ -6,7 +6,7 @@
 /*   By: yjoo <yjoo@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/16 13:39:54 by yjoo              #+#    #+#             */
-/*   Updated: 2021/12/16 17:11:48 by yjoo             ###   ########.fr       */
+/*   Updated: 2021/12/17 16:29:53 by yjoo             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,18 +22,22 @@ size_t	ft_strlen(const char *s)
 	return (len);
 }
 
-char	*ft_strjoin(char const *s1, char const *s2)
+char	*ft_strjoin(char *s1, char *s2)
 {
 	size_t	str_size;
 	char	*str;
 
-	if (!s1 || !s2)
-		return (NULL);
+	if (!s1)
+	{
+		s1 = (char *)malloc(sizeof(char) * 1);
+		s1[0] = 0;
+	}
 	str_size = ft_strlen(s1) + ft_strlen(s2);
 	str = (char *)malloc(sizeof(char) * (str_size + 1));
 	if (!str)
 		return (NULL);
 	ft_strlcpy(str + ft_strlcpy(str, s1, (str_size + 1)), s2, (str_size + 1));
+	free(s1);
 	return (str);
 }
 
@@ -53,15 +57,16 @@ size_t	ft_strlcpy(char *dst, const char *src, size_t size)
 	return (ft_strlen(src));
 }
 
-char	*ft_strchr(const char *s, int c)
+int	chrnl(char *buf)
 {
-	while (*s)
+	if (buf)
 	{
-		if (*s == c)
-			return ((char *)s);
-		s++;
+		while (*buf)
+		{
+			if (buf == '\n')
+				return (1);
+			buf++;
+		}
 	}
-	if (c == 0)
-		return ((char *)s);
-	return (NULL);
+	return (0);
 }

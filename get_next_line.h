@@ -6,7 +6,7 @@
 /*   By: yjoo <yjoo@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/16 13:39:52 by yjoo              #+#    #+#             */
-/*   Updated: 2021/12/16 17:27:09 by yjoo             ###   ########.fr       */
+/*   Updated: 2021/12/17 15:21:18 by yjoo             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,12 +17,12 @@
 # include <stdlib.h>
 # include <fcntl.h>
 
+int	chrnl(char *buf);
+
 size_t	ft_strlen(const char *s);
 size_t	ft_strlcpy(char *dst, const char *src, size_t size);
 
 char	*get_next_line(int fd);
-char	*get_line(char *buf);
 char	*ft_strjoin(char const *s1, char const *s2);
-char	*ft_strchr(const char *s, int c);
 
 #endif
