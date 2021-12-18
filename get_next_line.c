@@ -6,7 +6,7 @@
 /*   By: yjoo <yjoo@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/16 13:39:50 by yjoo              #+#    #+#             */
-/*   Updated: 2021/12/17 16:47:11 by yjoo             ###   ########.fr       */
+/*   Updated: 2021/12/18 19:01:49 by yjoo             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,11 +29,10 @@ char	*get_line(char *tmp)
 		line[i] = tmp[i];
 		i++;
 	}
-	//개행이면 개행을 집어넣어주고, eof라면 그냥 마지막에 널포인터를 넣어준다.
 	if (tmp[i] == '\n')
 	{
 		line[i] = tmp[i];
-		i++;//널포인터를 넣어줘야 하므로 값을 증가
+		i++;
 	}
 	line[i] = 0;
 	return (line);
@@ -47,29 +46,27 @@ char	*save_tmp(char	*tmp)
 	
 	i = 0;
 	j = 0;
-	//먼저 line에 들어간 문자를 제거함
 	while (tmp[i] && tmp[i] != '\n')
 		i++;
-	//현재 위치는 NL
-	//NL까지의 길이를 제외한 나머지 길이와 + 널포인터의 길이만큼 할당
 	remstr = (char *)malloc(sizeof(char) * (ft_strlen(tmp) - i + 1));
 	if (!remstr)
 		return (NULL);
-	i++;//NL길이 뒤부터 붙여야 하므로 i값 증가
+	i++;
 	while (tmp[i])
 		remstr[j++] = tmp[i++];
-	//쭉 복사해서 붙여주고 마지막에 널 포인터
 	remstr[j] = 0;
-	//tmp는 더이상 필요없으므로 메모리 해제
 	free(tmp);
 	return (remstr); 
 }
+
 char	*read_line(int fd, char *tmp)
 {
 	int		read_len;
+	size_t	tmp_len;
 	char	*buf;
 
 	read_len = 1;
+	tmp_len = ft_strlen(tmp);
 	buf = (char *)malloc(sizeof(char) * (BUFFER_SIZE + 1));
 	if (!buf)
 		return (NULL);
@@ -81,7 +78,13 @@ char	*read_line(int fd, char *tmp)
 			free(buf);
 			return (NULL);
 		}
+		buf[read_len] = 0;
 		tmp = ft_strjoin(tmp, buf);
+		if (tmp_len == ft_strlen(tmp))
+		{
+			free(buf);
+			return (NULL);
+		}
 	}
 	free(buf);
 	return (tmp);
@@ -95,6 +98,8 @@ char	*get_next_line(int fd)
 	if (fd < 0 || BUFFER_SIZE < 0)
 		return (NULL);
 	tmp = read_line(fd, tmp);
+	if (!tmp)
+		return (NULL);
 	line = get_line(tmp);
 	tmp = save_tmp(tmp);
 	return (line);

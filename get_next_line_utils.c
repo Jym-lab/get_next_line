@@ -6,7 +6,7 @@
 /*   By: yjoo <yjoo@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/16 13:39:54 by yjoo              #+#    #+#             */
-/*   Updated: 2021/12/17 16:29:53 by yjoo             ###   ########.fr       */
+/*   Updated: 2021/12/18 18:48:25 by yjoo             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,8 @@ size_t	ft_strlen(const char *s)
 	int	len;
 
 	len = 0;
+	if (!s)
+		return (len);
 	while (s[len])
 		len++;
 	return (len);
@@ -63,7 +65,7 @@ int	chrnl(char *buf)
 	{
 		while (*buf)
 		{
-			if (buf == '\n')
+			if (*buf == '\n')
 				return (1);
 			buf++;
 		}
