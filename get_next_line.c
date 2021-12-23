@@ -6,7 +6,7 @@
 /*   By: yjoo <yjoo@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/16 13:39:50 by yjoo              #+#    #+#             */
-/*   Updated: 2021/12/23 14:16:04 by yjoo             ###   ########.fr       */
+/*   Updated: 2021/12/23 16:48:43 by yjoo             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,7 +97,10 @@ char	*get_next_line(int fd)
 		return (NULL);
 	tmp = read_line(fd, tmp);
 	if (!tmp[0])
+	{
+		free(tmp);
 		return (NULL);
+	}
 	line = get_line(tmp);
 	tmp = save_tmp(tmp);
 	return (line);
