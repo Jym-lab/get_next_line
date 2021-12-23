@@ -6,7 +6,7 @@
 /*   By: yjoo <yjoo@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/16 13:39:50 by yjoo              #+#    #+#             */
-/*   Updated: 2021/12/18 19:01:49 by yjoo             ###   ########.fr       */
+/*   Updated: 2021/12/23 14:16:04 by yjoo             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,11 +43,16 @@ char	*save_tmp(char	*tmp)
 	int		i;
 	int		j;
 	char	*remstr;
-	
+
 	i = 0;
 	j = 0;
 	while (tmp[i] && tmp[i] != '\n')
 		i++;
+	if(!tmp[i])
+	{
+		free(tmp);
+		return (NULL);
+	}
 	remstr = (char *)malloc(sizeof(char) * (ft_strlen(tmp) - i + 1));
 	if (!remstr)
 		return (NULL);
@@ -56,17 +61,15 @@ char	*save_tmp(char	*tmp)
 		remstr[j++] = tmp[i++];
 	remstr[j] = 0;
 	free(tmp);
-	return (remstr); 
+	return (remstr);
 }
 
 char	*read_line(int fd, char *tmp)
 {
 	int		read_len;
-	size_t	tmp_len;
 	char	*buf;
 
 	read_len = 1;
-	tmp_len = ft_strlen(tmp);
 	buf = (char *)malloc(sizeof(char) * (BUFFER_SIZE + 1));
 	if (!buf)
 		return (NULL);
@@ -80,11 +83,6 @@ char	*read_line(int fd, char *tmp)
 		}
 		buf[read_len] = 0;
 		tmp = ft_strjoin(tmp, buf);
-		if (tmp_len == ft_strlen(tmp))
-		{
-			free(buf);
-			return (NULL);
-		}
 	}
 	free(buf);
 	return (tmp);
@@ -98,7 +96,7 @@ char	*get_next_line(int fd)
 	if (fd < 0 || BUFFER_SIZE < 0)
 		return (NULL);
 	tmp = read_line(fd, tmp);
-	if (!tmp)
+	if (!tmp[0])
 		return (NULL);
 	line = get_line(tmp);
 	tmp = save_tmp(tmp);
