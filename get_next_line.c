@@ -6,102 +6,101 @@
 /*   By: yjoo <yjoo@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/16 13:39:50 by yjoo              #+#    #+#             */
-/*   Updated: 2021/12/23 16:48:43 by yjoo             ###   ########.fr       */
+/*   Updated: 2022/01/04 18:24:20 by yjoo             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
 
-char	*get_line(char *tmp)
+char	*save_buffer(char *buffer)
+{
+	int		i;
+	int		j;
+	char	*tmp;
+
+	i = 0;
+	while (buffer[i] && buffer[i] != '\n')
+		i++;
+	if(!buffer[i])
+	{
+		free(buffer);
+		return (NULL);
+	}
+	tmp = (char *)malloc(sizeof(char) * (ft_strlen(buffer) - i + 1));
+	if (!tmp)
+		return (NULL);
+	i++;
+	j = 0;
+	while (buffer[i])
+		tmp[j++] = buffer[i++];
+	tmp[j] = 0;
+	free(buffer);
+	return (tmp);
+}
+
+char	*get_line(char *buffer)
 {
 	char	*line;
 	int		i;
-
+	
+	if (!buffer[0])
+		return (NULL);
 	i = 0;
-	while (tmp[i] && tmp[i] != '\n')
+	while (buffer[i] && buffer[i] != '\n')
 		i++;
-	line = (char *)malloc(sizeof(char) * (i + 1));
+	line = (char *)malloc(sizeof(char) * (i + 2));
 	if (!line)
 		return (NULL);
 	i = 0;
-	while (tmp[i] && tmp[i] != '\n')
+	while (buffer[i] && buffer[i] != '\n')
 	{
-		line[i] = tmp[i];
+		line[i] = buffer[i];
 		i++;
 	}
-	if (tmp[i] == '\n')
+	if (buffer[i] == '\n')
 	{
-		line[i] = tmp[i];
+		line[i] = buffer[i];
 		i++;
 	}
 	line[i] = 0;
 	return (line);
 }
 
-char	*save_tmp(char	*tmp)
-{
-	int		i;
-	int		j;
-	char	*remstr;
-
-	i = 0;
-	j = 0;
-	while (tmp[i] && tmp[i] != '\n')
-		i++;
-	if(!tmp[i])
-	{
-		free(tmp);
-		return (NULL);
-	}
-	remstr = (char *)malloc(sizeof(char) * (ft_strlen(tmp) - i + 1));
-	if (!remstr)
-		return (NULL);
-	i++;
-	while (tmp[i])
-		remstr[j++] = tmp[i++];
-	remstr[j] = 0;
-	free(tmp);
-	return (remstr);
-}
-
-char	*read_line(int fd, char *tmp)
+char	*read_buffer(int fd, char *buffer)
 {
 	int		read_len;
-	char	*buf;
+	char	*tmp;
 
-	read_len = 1;
-	buf = (char *)malloc(sizeof(char) * (BUFFER_SIZE + 1));
-	if (!buf)
+	tmp = (char *)malloc(sizeof(char) * (BUFFER_SIZE + 1));
+	if (!tmp)
 		return (NULL);
-	while (read_len != 0 && !chrnl(buf))
+	read_len = 1;
+	while (read_len > 0 && !ft_strchr(tmp, '\n'))
 	{
-		read_len = read(fd, buf, BUFFER_SIZE);
-		if (read_len < 0)
+		read_len = read(fd, tmp, BUFFER_SIZE);
+		if (read_len == -1)
 		{
-			free(buf);
+			free(tmp);
 			return (NULL);
 		}
-		buf[read_len] = 0;
-		tmp = ft_strjoin(tmp, buf);
+		tmp[read_len] = 0;
+		buffer = ft_strjoin(buffer, tmp);
 	}
-	free(buf);
-	return (tmp);
+	free(tmp);
+	return (buffer);
 }
 
 char	*get_next_line(int fd)
 {
 	char		*line;
-	static char	*tmp;
+	static char	*buffer;
 
 	if (fd < 0 || BUFFER_SIZE < 0)
 		return (NULL);
-	tmp = read_line(fd, tmp);
-	if (!tmp[0])
-	{
-		free(tmp);
+	buffer	= read_buffer(fd, buffer);
+	if (!buffer)
 		return (NULL);
-	}
-	line = get_line(tmp);
-	tmp = save_tmp(tmp);
+	line = get_line(buffer);
+	buffer = save_buffer(buffer);
 	return (line);
 }

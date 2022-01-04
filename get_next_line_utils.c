@@ -6,7 +6,7 @@
 /*   By: yjoo <yjoo@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/16 13:39:54 by yjoo              #+#    #+#             */
-/*   Updated: 2021/12/18 18:48:25 by yjoo             ###   ########.fr       */
+/*   Updated: 2022/01/04 18:11:36 by yjoo             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,6 +34,8 @@ char	*ft_strjoin(char *s1, char *s2)
 		s1 = (char *)malloc(sizeof(char) * 1);
 		s1[0] = 0;
 	}
+	if (!s1 || !s2)
+		return (NULL);
 	str_size = ft_strlen(s1) + ft_strlen(s2);
 	str = (char *)malloc(sizeof(char) * (str_size + 1));
 	if (!str)
@@ -59,16 +61,15 @@ size_t	ft_strlcpy(char *dst, const char *src, size_t size)
 	return (ft_strlen(src));
 }
 
-int	chrnl(char *buf)
+char	*ft_strchr(char *s, int c)
 {
-	if (buf)
+	while (*s)
 	{
-		while (*buf)
-		{
-			if (*buf == '\n')
-				return (1);
-			buf++;
-		}
+		if (*s == c)
+			return ((char *)s);
+		s++;
 	}
-	return (0);
+	if (c == 0)
+		return ((char *)s);
+	return (NULL);
 }
