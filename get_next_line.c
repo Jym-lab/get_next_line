@@ -6,7 +6,7 @@
 /*   By: yjoo <yjoo@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/16 13:39:50 by yjoo              #+#    #+#             */
-/*   Updated: 2022/01/04 18:24:20 by yjoo             ###   ########.fr       */
+/*   Updated: 2022/01/05 02:53:57 by yjoo             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ char	*save_buffer(char *buffer)
 	i = 0;
 	while (buffer[i] && buffer[i] != '\n')
 		i++;
-	if(!buffer[i])
+	if (!buffer[i])
 	{
 		free(buffer);
 		return (NULL);
@@ -42,7 +42,7 @@ char	*get_line(char *buffer)
 {
 	char	*line;
 	int		i;
-	
+
 	if (!buffer[0])
 		return (NULL);
 	i = 0;
@@ -75,7 +75,7 @@ char	*read_buffer(int fd, char *buffer)
 	if (!tmp)
 		return (NULL);
 	read_len = 1;
-	while (read_len > 0 && !ft_strchr(tmp, '\n'))
+	while (read_len > 0 && !ft_strchr(buffer, '\n'))
 	{
 		read_len = read(fd, tmp, BUFFER_SIZE);
 		if (read_len == -1)
@@ -97,7 +97,7 @@ char	*get_next_line(int fd)
 
 	if (fd < 0 || BUFFER_SIZE < 0)
 		return (NULL);
-	buffer	= read_buffer(fd, buffer);
+	buffer = read_buffer(fd, buffer);
 	if (!buffer)
 		return (NULL);
 	line = get_line(buffer);
