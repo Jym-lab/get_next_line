@@ -6,7 +6,7 @@
 /*   By: yjoo <yjoo@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/16 13:39:50 by yjoo              #+#    #+#             */
-/*   Updated: 2022/01/05 02:53:57 by yjoo             ###   ########.fr       */
+/*   Updated: 2022/01/05 17:54:40 by yjoo             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,6 @@
 char	*save_buffer(char *buffer)
 {
 	int		i;
-	int		j;
 	char	*tmp;
 
 	i = 0;
@@ -29,11 +28,7 @@ char	*save_buffer(char *buffer)
 	tmp = (char *)malloc(sizeof(char) * (ft_strlen(buffer) - i + 1));
 	if (!tmp)
 		return (NULL);
-	i++;
-	j = 0;
-	while (buffer[i])
-		tmp[j++] = buffer[i++];
-	tmp[j] = 0;
+	ft_strlcpy(tmp, buffer + i, ft_strlen(buffer) - (i + 1) + 1);
 	free(buffer);
 	return (tmp);
 }
@@ -51,25 +46,14 @@ char	*get_line(char *buffer)
 	line = (char *)malloc(sizeof(char) * (i + 2));
 	if (!line)
 		return (NULL);
-	i = 0;
-	while (buffer[i] && buffer[i] != '\n')
-	{
-		line[i] = buffer[i];
-		i++;
-	}
-	if (buffer[i] == '\n')
-	{
-		line[i] = buffer[i];
-		i++;
-	}
-	line[i] = 0;
+	ft_strlcpy(line, buffer, i + 2);
 	return (line);
 }
 
 char	*read_buffer(int fd, char *buffer)
 {
-	int		read_len;
 	char	*tmp;
+	int		read_len;
 
 	tmp = (char *)malloc(sizeof(char) * (BUFFER_SIZE + 1));
 	if (!tmp)
@@ -98,8 +82,6 @@ char	*get_next_line(int fd)
 	if (fd < 0 || BUFFER_SIZE < 0)
 		return (NULL);
 	buffer = read_buffer(fd, buffer);
-	if (!buffer)
-		return (NULL);
 	line = get_line(buffer);
 	buffer = save_buffer(buffer);
 	return (line);
