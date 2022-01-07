@@ -6,7 +6,7 @@
 /*   By: yjoo <yjoo@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/16 13:39:50 by yjoo              #+#    #+#             */
-/*   Updated: 2022/01/07 15:30:40 by yjoo             ###   ########.fr       */
+/*   Updated: 2022/01/07 16:04:50 by yjoo             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ char	*save_buffer(char *buffer)
 	if (!tmp)
 		return (NULL);
 	i++;
-	ft_strlcpy(tmp, buffer + i,ft_strlen(buffer) - i + 1); 
+	ft_strlcpy(tmp, buffer + i, ft_strlen(buffer) - i + 1);
 	free(buffer);
 	return (tmp);
 }
