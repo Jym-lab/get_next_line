@@ -6,7 +6,7 @@
 /*   By: yjoo <yjoo@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/16 13:39:54 by yjoo              #+#    #+#             */
-/*   Updated: 2022/01/07 16:23:21 by yjoo             ###   ########.fr       */
+/*   Updated: 2022/01/08 18:52:30 by yjoo             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,4 +65,16 @@ char	*ft_strchr(char *s, int c)
 	if (c == 0)
 		return ((char *)s);
 	return (NULL);
+}
+
+t_list	*new_node(int fd)
+{
+	t_list	*new;
+
+	new = (t_list *)malloc(sizeof(t_list));
+	if (!new)
+		return (NULL)
+	new->fd = fd;
+	new->next = NULL;
+	return (new);
 }

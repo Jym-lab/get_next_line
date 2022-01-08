@@ -6,7 +6,7 @@
 /*   By: yjoo <yjoo@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/16 13:39:50 by yjoo              #+#    #+#             */
-/*   Updated: 2022/01/07 16:34:10 by yjoo             ###   ########.fr       */
+/*   Updated: 2022/01/08 18:57:17 by yjoo             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,17 +90,36 @@ char	*read_buffer(int fd, char *buffer)
 	return (buffer);
 }
 
+t_list	*find_node(t_list *node, int fd)
+{
+	while (node)
+	{
+		if (node->fd == fd)
+			break ;
+		if (node->next == NULL)
+		{
+			node->next = new_node(fd);
+			if (!node)
+				return (NULL);
+		}	
+		node = node->next;
+	}
+	return (node);
+}
+
 char	*get_next_line(int fd)
 {
-	char		*line;
-	static char	*buffer;
+	static t_list	*h_node;
+	t_list			*cur_node;
+	char			*line;
 
 	if (fd < 0 || BUFFER_SIZE < 0)
 		return (NULL);
-	buffer = read_buffer(fd, buffer);
-	if (!buffer)
+	cur_node = find_node(h_node, fd);
+	cur_node->buffer = read_buffer(fd, cur_node->buffer);
+	if (!cur_node->buffer)
 		return (NULL);
-	line = get_line(buffer);
-	buffer = save_buffer(buffer);
+	line = get_line(cur_node->buffer);
+	cur_node->buffer = save_buffer(cur_node->buffer);	
 	return (line);
 }
