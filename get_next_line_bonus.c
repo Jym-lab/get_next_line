@@ -6,7 +6,7 @@
 /*   By: yjoo <yjoo@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/16 13:39:50 by yjoo              #+#    #+#             */
-/*   Updated: 2022/01/08 19:06:41 by yjoo             ###   ########.fr       */
+/*   Updated: 2022/01/08 19:38:04 by yjoo             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,8 +75,11 @@ char	*read_buffer(int fd, char *buffer)
 	return (buffer);
 }
 
-t_list	*find_node(t_list *node, int fd)
+t_list	*find_node(t_list **h_node, int fd)
 {
+	t_list	*node;
+
+	node = *h_node;
 	while (node)
 	{
 		if (node->fd == fd)
@@ -86,7 +89,7 @@ t_list	*find_node(t_list *node, int fd)
 			node->next = new_node(fd);
 			if (!node)
 				return (NULL);
-		}	
+		}
 		node = node->next;
 	}
 	return (node);
@@ -94,17 +97,17 @@ t_list	*find_node(t_list *node, int fd)
 
 char	*get_next_line(int fd)
 {
-	static t_list	*h_node;
+	static t_list	*h_node = 0;
 	t_list			*cur_node;
 	char			*line;
 
 	if (fd < 0 || BUFFER_SIZE < 0)
 		return (NULL);
-	cur_node = find_node(h_node, fd);
-	cur_node->buffer = read_buffer(fd, cur_node->buffer);
+	cur_node = find_node(&h_node, fd);
+	cur_node->buffer = read_buffer(cur_node->fd, cur_node->buffer);
 	if (!cur_node->buffer)
 		return (NULL);
 	line = get_line(cur_node->buffer);
-	cur_node->buffer = save_buffer(cur_node->buffer);	
+	cur_node->buffer = save_buffer(cur_node->buffer);
 	return (line);
 }

@@ -6,7 +6,7 @@
 /*   By: yjoo <yjoo@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/16 13:39:54 by yjoo              #+#    #+#             */
-/*   Updated: 2022/01/08 19:05:53 by yjoo             ###   ########.fr       */
+/*   Updated: 2022/01/08 19:31:15 by yjoo             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,7 +82,7 @@ t_list	*new_node(int fd)
 
 	new = (t_list *)malloc(sizeof(t_list));
 	if (!new)
-		return (NULL)
+		return (NULL);
 	new->fd = fd;
 	new->next = NULL;
 	return (new);
