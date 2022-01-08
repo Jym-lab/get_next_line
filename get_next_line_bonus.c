@@ -6,7 +6,7 @@
 /*   By: yjoo <yjoo@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/16 13:39:50 by yjoo              #+#    #+#             */
-/*   Updated: 2022/01/08 19:39:55 by yjoo             ###   ########.fr       */
+/*   Updated: 2022/01/08 20:04:15 by yjoo             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,7 @@
 char	*save_buffer(char *buffer)
 {
 	int		i;
+	int		j;
 	char	*tmp;
 
 	i = 0;
@@ -29,7 +30,10 @@ char	*save_buffer(char *buffer)
 	if (!tmp)
 		return (NULL);
 	i++;
-	ft_strlcpy(tmp, buffer + i, ft_strlen(buffer) - i + 1);
+	j = 0;
+	while (buffer[i])
+		tmp[j++] = buffer[i++];
+	tmp[j] = 0;
 	free(buffer);
 	return (tmp);
 }
@@ -47,7 +51,18 @@ char	*get_line(char *buffer)
 	line = (char *)malloc(sizeof(char) * (i + 2));
 	if (!line)
 		return (NULL);
-	ft_strlcpy(line, buffer, i + 2);
+	i = 0;
+	while (buffer[i] && buffer[i] != '\n')
+	{
+		line[i] = buffer[i];
+		i++;
+	}
+	if (buffer[i] == '\n')
+	{
+		line[i] = buffer[i];
+		i++;
+	}
+	line[i] = 0;
 	return (line);
 }
 
@@ -80,6 +95,11 @@ t_list	*find_node(t_list **h_node, int fd)
 	t_list	*node;
 
 	node = *h_node;
+	if (!node)
+	{
+		node = new_node(fd);
+		return (node);
+	}
 	while (node)
 	{
 		if (node->fd == fd)
