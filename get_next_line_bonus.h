@@ -6,7 +6,7 @@
 /*   By: yjoo <yjoo@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/16 13:39:52 by yjoo              #+#    #+#             */
-/*   Updated: 2022/01/08 18:53:07 by yjoo             ###   ########.fr       */
+/*   Updated: 2022/01/08 19:05:19 by yjoo             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,7 @@ t_list	*find_node(t_list *h_node, int fd);
 t_list	*new_node(int fd);
 
 size_t	ft_strlen(const char *s);
+size_t	ft_strlcpy(char *dst, char *src, size_t size);
 
 char	*ft_strjoin(char *s1, char *s2);
 char	*ft_strchr(char *s, int c);
