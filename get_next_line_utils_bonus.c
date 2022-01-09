@@ -6,7 +6,7 @@
 /*   By: yjoo <yjoo@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/16 13:39:54 by yjoo              #+#    #+#             */
-/*   Updated: 2022/01/08 20:04:42 by yjoo             ###   ########.fr       */
+/*   Updated: 2022/01/09 10:41:48 by yjoo             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,7 @@ char	*ft_strjoin(char *s1, char *s2)
 	j = 0;
 	if (s1)
 		while (s1[++i])
-			str[i++] = s1[i];
+			str[i] = s1[i];
 	while (s2[j])
 		str[i++] = s2[j++];
 	str[ft_strlen(s1) + ft_strlen(s2)] = 0;

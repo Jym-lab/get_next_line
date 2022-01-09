@@ -6,7 +6,7 @@
 /*   By: yjoo <yjoo@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/16 13:39:50 by yjoo              #+#    #+#             */
-/*   Updated: 2022/01/08 20:04:15 by yjoo             ###   ########.fr       */
+/*   Updated: 2022/01/09 18:42:52 by yjoo             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,7 +66,7 @@ char	*get_line(char *buffer)
 	return (line);
 }
 
-char	*read_buffer(int fd, char *buffer)
+char	*read_buffer(t_list **h_node, t_list *node)
 {
 	int		read_len;
 	char	*tmp;
@@ -75,19 +75,20 @@ char	*read_buffer(int fd, char *buffer)
 	if (!tmp)
 		return (NULL);
 	read_len = 1;
-	while (read_len > 0 && !ft_strchr(buffer, '\n'))
+	while (read_len > 0 && !ft_strchr(node->buffer, '\n'))
 	{
-		read_len = read(fd, tmp, BUFFER_SIZE);
+		read_len = read(node->fd, tmp, BUFFER_SIZE);
 		if (read_len == -1)
 		{
 			free(tmp);
+			free_node(&h_node, node);
 			return (NULL);
 		}
 		tmp[read_len] = 0;
-		buffer = ft_strjoin(buffer, tmp);
+		node->buffer = ft_strjoin(node->buffer, tmp);
 	}
 	free(tmp);
-	return (buffer);
+	return (node->buffer);
 }
 
 t_list	*find_node(t_list **h_node, int fd)
@@ -124,10 +125,29 @@ char	*get_next_line(int fd)
 	if (fd < 0 || BUFFER_SIZE < 0)
 		return (NULL);
 	cur_node = find_node(&h_node, fd);
-	cur_node->buffer = read_buffer(cur_node->fd, cur_node->buffer);
+	cur_node->buffer = read_buffer(&h_node, cur_node);
 	if (!cur_node->buffer)
 		return (NULL);
 	line = get_line(cur_node->buffer);
 	cur_node->buffer = save_buffer(cur_node->buffer);
 	return (line);
 }
+
+void	*free_node(t_list **h_node, t_list *node)
+{
+	t_list	*head;
+	t_list	*cur;
+	
+	head = *h_node;
+	cur = node;
+	if (head != cur)
+	{
+		while (head->next != cur)
+			head = head->next;
+		head->next = node->next;
+	}
+	if (node->buffer)
+		free(node->buffer);
+	free(node);
+}
+
