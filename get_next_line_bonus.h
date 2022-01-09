@@ -6,7 +6,7 @@
 /*   By: yjoo <yjoo@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/16 13:39:52 by yjoo              #+#    #+#             */
-/*   Updated: 2022/01/09 18:43:04 by yjoo             ###   ########.fr       */
+/*   Updated: 2022/01/09 19:09:25 by yjoo             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,14 +27,14 @@ typedef struct s_list
 t_list	*find_node(t_list **h_node, int fd);
 t_list	*new_node(int fd);
 
-void	*free_node(t_list **h_node, t_list *node);
+void	free_node(t_list **h_node, t_list *node);
 
 size_t	ft_strlen(const char *s);
 
 char	*ft_strjoin(char *s1, char *s2);
 char	*ft_strchr(char *s, int c);
 char	*get_next_line(int fd);
-char	*read_buffer(int fd, char *buffer);
+char	*read_buffer(int fd, char *buffer)
 char	*save_tmp(char	*buffer);
 char	*get_line(char *buffer);
 
