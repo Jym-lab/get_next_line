@@ -6,7 +6,7 @@
 /*   By: yjoo <yjoo@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/16 13:39:54 by yjoo              #+#    #+#             */
-/*   Updated: 2022/01/09 18:46:10 by yjoo             ###   ########.fr       */
+/*   Updated: 2022/01/11 15:08:04 by yjoo             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,4 +78,18 @@ t_list	*new_node(int fd)
 	new->buffer = NULL;
 	new->next = NULL;
 	return (new);
+}
+
+void	free_node(t_list **h_node, t_list *node)
+{
+	t_list	*head;
+
+	head = *h_node;
+	if (head != node)
+	{
+		while (head->next != node)
+			head = head->next;
+		head->next = node->next;
+	}
+	free(node);
 }

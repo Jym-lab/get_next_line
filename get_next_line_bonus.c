@@ -6,7 +6,7 @@
 /*   By: yjoo <yjoo@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/16 13:39:50 by yjoo              #+#    #+#             */
-/*   Updated: 2022/01/11 14:59:25 by yjoo             ###   ########.fr       */
+/*   Updated: 2022/01/11 15:08:00 by yjoo             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,7 +84,7 @@ char	*read_buffer(int fd, char *buffer)
 			return (NULL);
 		}
 		tmp[read_len] = 0;
-		node->buffer = ft_strjoin(buffer, tmp);
+		buffer = ft_strjoin(buffer, tmp);
 	}
 	free(tmp);
 	return (buffer);
@@ -132,20 +132,4 @@ char	*get_next_line(int fd)
 	if (cur_node->buffer == NULL)
 		free_node(&h_node, cur_node);
 	return (line);
-}
-
-void	free_node(t_list **h_node, t_list *node)
-{
-	t_list	*head;
-	t_list	*cur;
-
-	head = *h_node;
-	cur = node;
-	if (head != cur)
-	{
-		while (head->next != cur)
-			head = head->next;
-		head->next = node->next;
-	}
-	free(node);
 }
