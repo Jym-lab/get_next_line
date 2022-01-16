@@ -6,7 +6,7 @@
 /*   By: yjoo <yjoo@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/16 13:39:50 by yjoo              #+#    #+#             */
-/*   Updated: 2022/01/11 15:08:00 by yjoo             ###   ########.fr       */
+/*   Updated: 2022/01/16 23:16:17 by yjoo             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,12 +94,12 @@ t_list	*find_node(t_list **h_node, int fd)
 {
 	t_list	*node;
 
-	node = *h_node;
-	if (!node)
+	if (!(*h_node))
 	{
-		node = new_node(fd);
-		return (node);
+		*h_node = new_node(fd);
+		return (*h_node);
 	}
+	node = *h_node;
 	while (node)
 	{
 		if (node->fd == fd)
@@ -118,6 +118,7 @@ t_list	*find_node(t_list **h_node, int fd)
 char	*get_next_line(int fd)
 {
 	static t_list	*h_node = 0;
+	t_list			*tmp;
 	t_list			*cur_node;
 	char			*line;
 

@@ -6,7 +6,7 @@
 /*   By: yjoo <yjoo@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/16 13:39:52 by yjoo              #+#    #+#             */
-/*   Updated: 2022/01/11 15:06:49 by yjoo             ###   ########.fr       */
+/*   Updated: 2022/01/16 21:08:35 by yjoo             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,7 @@
 # include <unistd.h>
 # include <stdlib.h>
 # include <fcntl.h>
+# include <stdio.h>
 
 typedef struct s_list
 {
@@ -24,10 +25,10 @@ typedef struct s_list
 	struct s_list	*next;
 }	t_list;
 
+void	free_node(t_list **h_node, t_list *cur_node);
+
 t_list	*find_node(t_list **h_node, int fd);
 t_list	*new_node(int fd);
-
-void	free_node(t_list **h_node, t_list *node);
 
 size_t	ft_strlen(const char *s);
 
