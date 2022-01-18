@@ -6,7 +6,7 @@
 /*   By: yjoo <yjoo@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/16 13:39:50 by yjoo              #+#    #+#             */
-/*   Updated: 2022/01/18 15:57:14 by yjoo             ###   ########.fr       */
+/*   Updated: 2022/01/18 16:06:42 by yjoo             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -131,5 +131,7 @@ char	*get_next_line(int fd)
 		return (NULL);
 	line = get_line(node->buffer);
 	node->buffer = save_tmp(node->buffer);
+	if (!node->buffer)
+		free_node(node, fd);
 	return (line);
 }

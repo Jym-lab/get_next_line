@@ -6,7 +6,7 @@
 /*   By: yjoo <yjoo@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/16 13:39:54 by yjoo              #+#    #+#             */
-/*   Updated: 2022/01/18 15:59:18 by yjoo             ###   ########.fr       */
+/*   Updated: 2022/01/18 16:06:02 by yjoo             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,12 +82,17 @@ t_list	*new_node(int fd)
 
 void	free_node(t_list *node, int fd)
 {
-	if (node->fd == fd)
-		return (free(node));
-	while (tmp->next)
-		if (tmp->next != cur_node)
-			tmp = tmp->next;
-	if (cur_node->next)
-		tmp->next = cur_node->next;
-	free(cur_node);
+	while (node->fd < fd && node)
+	{
+		node = node->next;
+		if (node->fd == fd)
+			free(node);
+	}
+	while (node->fd > fd && node)
+	{
+		node = node->prev;
+		if (node->fd == fd)
+			free(node);
+	}
+	return ;
 }
