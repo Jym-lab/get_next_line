@@ -6,13 +6,13 @@
 /*   By: yjoo <yjoo@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/16 13:39:50 by yjoo              #+#    #+#             */
-/*   Updated: 2022/01/18 16:06:42 by yjoo             ###   ########.fr       */
+/*   Updated: 2022/01/18 17:54:53 by yjoo             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line_bonus.h"
 
-char	*save_tmp(char *buffer)
+char	*save_buffer(char *buffer)
 {
 	int		i;
 	int		j;
@@ -90,48 +90,46 @@ char	*read_buffer(int fd, char *buffer)
 	return (buffer);
 }
 
-t_list	*find_node(t_list *node, int fd)
+t_list	*find_node(t_list **h_node, int fd)
 {
-	t_list	*tmp;
+	t_list	*node;
 
-	while (node->fd < fd && node)
+	if (!(*h_node))
 	{
-		if (!node->next)
+		*h_node = new_node(fd);
+		return (*h_node);
+	}
+	node = *h_node;
+	while (node)
+	{
+		if (node->fd == fd)
+			break ;
+		if (node->next == NULL)
 		{
-			tmp = new_node(fd);
-			node->next = tmp;
-			tmp->prev = node;
+			node->next = new_node(fd);
+			if (!node)
+				return (NULL);
 		}
 		node = node->next;
-		if (node->fd == fd)
-			return (node);
 	}
-	while (node->fd > fd && node)
-	{
-		node = node->prev;
-		if (node->fd == fd)
-			return (node);
-	}
-	return (0);
+	return (node);
 }
 
 char	*get_next_line(int fd)
 {
-	static t_list	*node;
+	static t_list	*h_node;
+	t_list			*cur_node;
 	char			*line;
 
-	if (fd < 0 || BUFFER_SIZE <= 0)
+	if (fd < 0 || BUFFER_SIZE < 0)
 		return (NULL);
-	if (node && node->fd != fd && fd)
-		node = find_node(node, fd);
-	if (node == NULL)
-		node = new_node(fd);
-	node->buffer = read_buffer(node->fd, node->buffer);
-	if (!node->buffer)
+	cur_node = find_node(&h_node, fd);
+	cur_node->buffer = read_buffer(cur_node->fd, cur_node->buffer);
+	if (!cur_node->buffer)
 		return (NULL);
-	line = get_line(node->buffer);
-	node->buffer = save_tmp(node->buffer);
-	if (!node->buffer)
-		free_node(node, fd);
+	line = get_line(cur_node->buffer);
+	cur_node->buffer = save_buffer(cur_node->buffer);
+	if (cur_node->buffer == NULL)
+		free_node(&h_node, cur_node);
 	return (line);
 }
