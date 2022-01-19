@@ -6,7 +6,7 @@
 /*   By: yjoo <yjoo@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/16 13:39:50 by yjoo              #+#    #+#             */
-/*   Updated: 2022/01/19 14:07:39 by yjoo             ###   ########.fr       */
+/*   Updated: 2022/01/19 16:25:47 by yjoo             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -121,7 +121,7 @@ char	*get_next_line(int fd)
 	t_list			*cur_node;
 	char			*line;
 
-	if (fd < 0 || BUFFER_SIZE < 0 || fd > 256)
+	if (fd < 0 || BUFFER_SIZE < 0 || fd > OPEN_MAX)
 		return (NULL);
 	cur_node = find_node(&h_node, fd);
 	cur_node->buffer = read_buffer(cur_node->fd, cur_node->buffer);

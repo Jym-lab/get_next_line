@@ -6,7 +6,7 @@
 /*   By: yjoo <yjoo@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/16 13:39:52 by yjoo              #+#    #+#             */
-/*   Updated: 2022/01/18 17:55:40 by yjoo             ###   ########.fr       */
+/*   Updated: 2022/01/19 16:23:51 by yjoo             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,8 @@
 # include <unistd.h>
 # include <stdlib.h>
 # include <fcntl.h>
-# include <stdio.h>
+
+# define OPEN_MAX 256
 
 typedef struct s_list
 {
